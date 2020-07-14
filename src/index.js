@@ -48,10 +48,7 @@ const main = async () => {
     );
     nodeRsync(
       {
-        src:
-          input.destinationPath.substr(-1) === '/'
-            ? input.destinationPath.substr(0, -1)
-            : input.destinationPath,
+        src: input.destinationPath,
         dest: `${input.syncOptions.sshHost}:${input.syncOptions.targetDir}`,
         args: ['-azhcvv'],
         privateKey: input.syncOptions.sshPrivateKeyPath,
