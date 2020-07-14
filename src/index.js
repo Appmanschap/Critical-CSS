@@ -5,7 +5,7 @@ const URL = require('url');
 
 const generateCriticalCSS = async (input) => {
     console.log(input);
-    for (let page in input.paths) {
+    for (let page of input.paths) {
         const pageUrl = URL.parse(`${input.baseUrl}${page.url}`);
         const criticalDest =
             input.destinationPath + page.template + '_critical.min.css';
