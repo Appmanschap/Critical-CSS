@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const fs = require('fs');
 const { resolve } = require('path')
+const chromeLauncher = require('chrome-launcher').Launcher
 
 exports.getInput = function getInputArgs() {
     let serverBaseUrl = core.getInput('serverBaseUrl');
@@ -39,9 +40,12 @@ exports.getInput = function getInputArgs() {
         process.exit(1);
     }
 
+    const browserPath = chromeLauncher.getFirstInstallation()
+
     return {
         baseUrl: serverBaseUrl,
         destinationPath: destinationPath,
         paths: config,
+        browserPath: browserPath
     };
 };

@@ -1,11 +1,14 @@
 const core = require('@actions/core');
 const { getInput } = require('./config');
 const critical = require('critical');
+const puppeteer = require('puppeteer'); // installed by penthouse
 const URL = require('url');
-const chromeLauncher = require('chrome-launcher').Launcher;
+
+const browserPromise = (browserPath) => {
+    return puppeteer.launch({executablePath: browserPath})
+}
 
 const generateCriticalCSS = async (input) => {
-    console.log(chromeLauncher.getFirstInstallation());
     for (let page of input.paths) {
         const pageUrl = URL.parse(`${input.baseUrl}${page.url}`);
         const criticalDest =
@@ -31,6 +34,11 @@ const generateCriticalCSS = async (input) => {
                     height: 1280,
                 },
             ],
+            penthouse: {
+                puppeteer: {
+                    getBrowser: browserPromise(input.browserPath)
+                }
+            }
         });
     }
 };
