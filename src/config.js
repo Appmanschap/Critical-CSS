@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const fs = require('fs');
+const { resolve } = require('path')
 
 exports.getInput = function getInputArgs() {
     let serverBaseUrl = core.getInput('serverBaseUrl');
