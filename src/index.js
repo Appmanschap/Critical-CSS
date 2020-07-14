@@ -8,7 +8,7 @@ const generateCriticalCSS = async (input) => {
     for (page in input.paths) {
         const pageUrl = URL.parse(`${input.baseUrl}${page.url}`);
         const criticalDest =
-            pkg.paths.dist.critical + crit.template + '_critical.min.css';
+            input.destinationPath + path.template + '_critical.min.css';
 
         console.log(
             `-> Generating critical CSS: ${pageUrl.href} -> ${criticalDest}`
