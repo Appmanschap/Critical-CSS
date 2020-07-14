@@ -2,9 +2,10 @@ const core = require('@actions/core');
 const { getInput } = require('./config');
 const critical = require('critical');
 const URL = require('url');
+const ChromeLauncher = require('chrome-launcher')
 
 const generateCriticalCSS = async (input) => {
-    console.log(input);
+    console.log(ChromeLauncher.getFirstInstallation());
     for (let page of input.paths) {
         const pageUrl = URL.parse(`${input.baseUrl}${page.url}`);
         const criticalDest =
