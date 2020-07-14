@@ -1,58 +1,52 @@
 const core = require('@actions/core');
 const { getInput } = require('./config');
 const critical = require('critical');
-const puppeteer = require('puppeteer'); // installed by penthouse
 const URL = require('url');
 
-const browserPromise = (browserPath) => {
-    return puppeteer.launch({executablePath: browserPath})
-}
-
 const generateCriticalCSS = async (input) => {
-    for (let page of input.paths) {
-        const pageUrl = URL.parse(`${input.baseUrl}${page.url}`);
-        const criticalDest =
-            input.destinationPath + page.template + '_critical.min.css';
+  for (let page of input.paths) {
+    const pageUrl = URL.parse(`${input.baseUrl}${page.url}`);
+    const criticalDest =
+      input.destinationPath + page.template + '_critical.min.css';
 
-        console.log(
-            `-> Generating critical CSS: ${pageUrl.href} -> ${criticalDest}`
-        );
+    console.log(
+      `-> Generating critical CSS: ${pageUrl.href} -> ${criticalDest}`
+    );
 
-        await critical.generate({
-            src: pageUrl.href,
-            target: criticalDest,
-            inline: false,
-            ignore: [],
-            minify: true,
-            dimensions: [
-                {
-                    width: 375,
-                    height: 667,
-                },
-                {
-                    width: 1440,
-                    height: 1280,
-                },
-            ],
-            penthouse: {
-                puppeteer: {
-                    getBrowser: browserPromise(input.browserPath)
-                }
-            }
-        });
-    }
+    await critical.generate({
+      src: pageUrl.href,
+      target: criticalDest,
+      inline: false,
+      ignore: [],
+      minify: true,
+      dimensions: [
+        {
+          width: 375,
+          height: 667,
+        },
+        {
+          width: 1440,
+          height: 1280,
+        },
+      ],
+    });
+  }
 };
 
 const main = async () => {
-    core.startGroup('Action config');
-    const input = getInput();
-    core.endGroup(); // Action config
+  core.startGroup('Action config');
+  const input = getInput();
+  process.env.PUPPETEER_EXECUTABLE_PATH = input.browserPath;
+  core.endGroup(); // Action config
 
-    core.startGroup('Generation Critical CSS');
-    await generateCriticalCSS(input);
-    CaretPosition.endGroup();
+  core.startGroup('Generation Critical CSS');
+  await generateCriticalCSS(input);
+  core.endGroup();
 };
 
 main()
-    .catch((err) => core.setFailed(err.message))
-    .then(() => core.debug(`done in ${process.uptime()}s`));
+  .catch((err) => {
+    core.setFailed(err.message);
+    process.exit(1);
+  })
+  .then(() => core.debug(`done in ${process.uptime()}s`));

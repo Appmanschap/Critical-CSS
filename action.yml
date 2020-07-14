@@ -3,10 +3,13 @@ description: 'Generate Critical CSS'
 inputs:
     serverBaseUrl:
         description: 'The base url of the site'
+        required: true
     destinationPath:
         description: 'The destination path to store the generated files'
+        required: true
     configPath:
         description: 'Path to config file'
+        required: true
 runs:
     using: 'node12'
     main: 'src/index.js'
