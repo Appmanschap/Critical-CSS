@@ -67,6 +67,7 @@ const main = async () => {
           process.exit(1);
         } else {
           core.info('Rsync finished');
+          core.info(stdout);
         }
       }
     );
