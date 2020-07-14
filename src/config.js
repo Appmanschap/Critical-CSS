@@ -12,7 +12,7 @@ exports.getInput = function getInputArgs() {
   }
 
   // Make sure we end with a '/'
-  if (serverBaseUrl.charAt(-1) !== '/') {
+  if (serverBaseUrl.substr(-1) !== '/') {
     serverBaseUrl += '/';
   }
 
