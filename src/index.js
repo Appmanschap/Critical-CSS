@@ -58,9 +58,12 @@ const main = async () => {
         delete: true,
         ssh: true,
       },
-      (error) => {
+      (error, stdout, stderr, cmd) => {
         if (error) {
-          core.setFailed(error.message);
+          core.error(error);
+          core.error(stdout);
+          core.error(stderr);
+          core.error(cmd);
           process.exit(1);
         } else {
           core.info('Rsync finished');
