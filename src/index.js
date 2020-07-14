@@ -2,6 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const { getInput } = require('./config');
 const critical = require('critical');
+const URL = require('url');
 
 const generateCriticalCSS = async (input) => {
     for (page in input.paths) {
