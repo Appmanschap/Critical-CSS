@@ -53,7 +53,7 @@ const main = async () => {
             ? input.destinationPath.substr(0, -1)
             : input.destinationPath,
         dest: `${input.syncOptions.sshHost}:${input.syncOptions.targetDir}`,
-        sshCmdArgs: '-azhcvv',
+        sshCmdArgs: ['-azhcvv'],
         privateKey: input.syncOptions.sshPrivateKeyPath,
         delete: true,
         ssh: true,
