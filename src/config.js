@@ -42,10 +42,32 @@ exports.getInput = function getInputArgs() {
 
   const browserPath = chromeLauncher.getFirstInstallation();
 
+  const shouldSync = core.getInput('sync');
+
+  let syncOptions = {};
+  if (shouldSync) {
+    const sshPrivateKeyPath = core.getInput('sshPrivateKeyPath');
+    const sshHost = core.getInput('sshHost');
+    const targetDir = core.getInput('targetDir');
+
+    if (!sshHost || !sshPrivateKeyPath || !targetDir) {
+      core.setFailed(`Invalid ssh options provided.`);
+      process.exit(1);
+    }
+
+    syncOptions = {
+      sshPrivateKeyPath: sshPrivateKeyPath,
+      sshHost: sshHost,
+      targetDir: targetDir,
+    };
+  }
+
   return {
     baseUrl: serverBaseUrl,
     destinationPath: destinationPath,
     paths: config,
     browserPath: browserPath,
+    shouldSync: shouldSync,
+    syncOptions: syncOptions,
   };
 };

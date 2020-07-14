@@ -13,6 +13,8 @@
     "@actions/core": "^1.2.4",
     "@actions/github": "^4.0.0",
     "chrome-launcher": "^0.13.4",
-    "critical": "^2.0.1"
+    "command-exists": "^1.2.9",
+    "critical": "^2.0.1",
+    "rsyncwrapper": "^3.0.1"
   }
 }

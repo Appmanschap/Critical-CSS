@@ -10,6 +10,20 @@ inputs:
     configPath:
         description: 'Path to config file'
         required: true
+    sync:
+        description: 'Should the generated files be synced to the remote server'
+        required: false
+        default: 'true'
+    sshPrivateKeyPath:
+        description: 'Optional ssh options'
+        required: false
+    sshHost:
+        description: 'The host to connect to in user@host format'
+        required: false
+    targetDir:
+        description: 'Directory to store generated files'
+        required: false
+
 runs:
     using: 'node12'
     main: 'src/index.js'
