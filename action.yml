@@ -1,5 +1,6 @@
 name: 'Critical CSS'
 description: 'Generate Critical CSS'
+inputs:
     serverBaseUrl:
         description: 'The base url of the site'
     destinationPath:
