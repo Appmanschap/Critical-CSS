@@ -1,0 +1,14 @@
+name: 'Critical CSS'
+description: 'Generate Critical CSS'
+    serverBaseUrl:
+        description: 'The base url of the site'
+    destinationPath:
+        description: 'The destination path to store the generated files'
+    configPath:
+        description: 'Path to config file'
+runs:
+    using: 'node12'
+    main: 'src/index.js'
+branding:
+    icon: 'package'
+    color: 'gray-dark'
