@@ -60,7 +60,7 @@ const main = async () => {
       },
       (error) => {
         if (error) {
-          core.setFailed(err.message);
+          core.setFailed(error.message);
           process.exit(1);
         } else {
           core.info('Rsync finished');
