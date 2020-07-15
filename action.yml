@@ -6,7 +6,8 @@ inputs:
         required: true
     destinationPath:
         description: 'The destination path to store the generated files'
-        required: true
+        required: false
+        default: './criticalcss/'
     configPath:
         description: 'Path to config file'
         required: true
