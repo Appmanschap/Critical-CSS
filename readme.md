@@ -57,6 +57,7 @@ None for now
 
 ## Example usage with checkout
 
+```yaml
 - name: Checkout Private Critical CSS Action Repo
   uses: actions/checkout@v2
   with:
@@ -73,6 +74,7 @@ None for now
     sshPrivateKeyPath: '~/.ssh/gaafproject_rsa'
     sshHost: $SSH_HOST
     targetDir: './public/assets/criticalcss/'
+```
     
 ## Development
 When committing this action, make sure to also commit the _entire_ `node_modules` directory.  
