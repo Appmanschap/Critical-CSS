@@ -14,7 +14,7 @@
     "@actions/github": "^4.0.0",
     "chrome-launcher": "^0.13.4",
     "command-exists": "^1.2.9",
-    "critical": "^2.0.1",
+    "critical": "^2.0.5",
     "rsyncwrapper": "^3.0.1"
   }
 }
