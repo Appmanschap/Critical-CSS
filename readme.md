@@ -62,7 +62,6 @@ None for now
   uses: actions/checkout@v2
   with:
     repository: Appmanschap/Critical-CSS
-    ssh-key: ${{ secrets.PRIVATE_ACTION_DEPLOY_KEY }} # stored in GitHub secrets
     path: .github/actions/critical-css
 - name: Generate Critical CSS
   uses: ./.github/actions/critical-css
