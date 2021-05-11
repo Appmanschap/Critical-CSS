@@ -29,7 +29,7 @@ This file informs the action which pages to render CSS for. The structure is as 
     "template": "404"
   }
 ]
-``` 
+```
 It's a good idea to try & add all top level destinations to this file.
 
 ### `sync`
@@ -44,7 +44,7 @@ The following inputs are required when `sync` is true:
 
 ### `sshHost`
 
-**Required** The remote host to connect to in user@host format. For example: `user@appmanschap.nl` 
+**Required** The remote host to connect to in user@host format. For example: `user@appmanschap.nl`
 
 
 ### `targetDir`
@@ -75,8 +75,8 @@ None for now
     sshHost: $SSH_HOST
     targetDir: './public/assets/criticalcss/'
 ```
-    
+
 ## Development
-When committing this action, make sure to also commit the _entire_ `node_modules` directory.  
-Also make sure to skip installation of chrome when running yarn: 
+When committing this action, make sure to also commit the _entire_ `node_modules` directory.
+Also make sure to skip installation of chrome when running yarn:
 `echo "export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true && yarn" | sh`
