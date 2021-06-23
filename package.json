@@ -10,11 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@actions/core": "^1.2.4",
-    "@actions/github": "^4.0.0",
-    "chrome-launcher": "^0.13.4",
+    "@actions/core": "^1.4.0",
+    "@actions/github": "^5.0.0",
+    "chrome-launcher": "^0.14.0",
     "command-exists": "^1.2.9",
-    "critical": "^2.0.1",
+    "critical": "^4.0.0",
     "rsyncwrapper": "^3.0.1"
   }
 }
