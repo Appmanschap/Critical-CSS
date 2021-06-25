@@ -17,7 +17,7 @@ const generateCriticalCSS = async (input) => {
       target: criticalDest,
       inline: false,
       ignore: [],
-      minify: true,
+    //   minify: true,
       dimensions: [
         {
           width: 375,
