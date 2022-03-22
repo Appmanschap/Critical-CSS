@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.3
+Bump dependencies, use ncc to build package
+
 ## 1.0.2
 Audit fix
 
