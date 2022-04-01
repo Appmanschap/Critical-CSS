@@ -1,6 +1,6 @@
 {
   "name": "criticalcss-action",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "src/index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@actions/core": "^1.6.0",
-    "@actions/github": "^5.0.0",
+    "@actions/github": "^5.0.1",
     "chrome-launcher": "^0.15.0",
     "command-exists": "^1.2.9",
     "critical": "^4.0.1",
@@ -19,5 +19,10 @@
   },
   "devDependencies": {
     "@vercel/ncc": "^0.33.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "nth-check@<2.0.1": ">=2.0.1"
+    }
   }
 }
