@@ -54,6 +54,8 @@ const main = async () => {
         privateKey: input.syncOptions.sshPrivateKeyPath,
         delete: true,
         ssh: true,
+        port: input.syncOptions.sshPort
+
       },
       (error, stdout, stderr, cmd) => {
         if (error) {

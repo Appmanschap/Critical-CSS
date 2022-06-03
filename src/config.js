@@ -48,9 +48,10 @@ exports.getInput = function getInputArgs() {
   if (shouldSync) {
     const sshPrivateKeyPath = core.getInput('sshPrivateKeyPath');
     const sshHost = core.getInput('sshHost');
+    const sshPort = core.getInput('sshPort');
     const targetDir = core.getInput('targetDir');
 
-    if (!sshHost || !sshPrivateKeyPath || !targetDir) {
+    if (!sshHost || !targetDir) {
       core.setFailed(`Invalid ssh options provided.`);
       process.exit(1);
     }
@@ -58,6 +59,7 @@ exports.getInput = function getInputArgs() {
     syncOptions = {
       sshPrivateKeyPath: sshPrivateKeyPath,
       sshHost: sshHost,
+      sshPort: sshPort,
       targetDir: targetDir,
     };
   }

@@ -18,12 +18,17 @@ inputs:
     sshPrivateKeyPath:
         description: 'Optional ssh options'
         required: false
+        default: ''
     sshHost:
         description: 'The host to connect to in user@host format'
+        required: true
+    sshPort:
+        description: 'The ssh port in string format'
         required: false
+        default: '22'
     targetDir:
         description: 'Directory to store generated files'
-        required: false
+        required: true
 
 runs:
     using: 'node16'
