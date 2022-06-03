@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.6
+Fix optional private key
+
 ## 1.0.5
 Bump dependencies, add optional port parameter, made sshPrivateKeyPath optional 
 

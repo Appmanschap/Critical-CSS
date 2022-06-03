@@ -17,17 +17,17 @@ const generateCriticalCSS = async (input) => {
       target: criticalDest,
       inline: false,
       ignore: [],
-    //   minify: true,
+      //   minify: true,
       dimensions: [
         {
           width: 375,
-          height: 667,
+          height: 667
         },
         {
           width: 1440,
-          height: 1280,
-        },
-      ],
+          height: 1280
+        }
+      ]
     });
   }
 };
@@ -46,17 +46,22 @@ const main = async () => {
     core.startGroup(
       `Starting Rsync ${input.destinationPath} -> ${input.syncOptions.targetDir}`
     );
-    nodeRsync(
-      {
-        src: input.destinationPath,
-        dest: `${input.syncOptions.sshHost}:${input.syncOptions.targetDir}`,
-        args: ['-azhcvv'],
-        privateKey: input.syncOptions.sshPrivateKeyPath,
-        delete: true,
-        ssh: true,
-        port: input.syncOptions.sshPort
 
-      },
+    let options = {
+      src: input.destinationPath,
+      dest: `${input.syncOptions.sshHost}:${input.syncOptions.targetDir}`,
+      args: ['-azhcvv'],
+      delete: true,
+      ssh: true,
+      port: input.syncOptions.sshPort
+    };
+
+    if (input.syncOptions.sshPrivateKeyPath.length) {
+      options['privateKey'] = input.syncOptions.sshPrivateKeyPath;
+    }
+
+    nodeRsync(
+      options,
       (error, stdout, stderr, cmd) => {
         if (error) {
           core.error(error);
