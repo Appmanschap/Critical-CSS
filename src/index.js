@@ -3,6 +3,18 @@ const { getInput } = require('./config');
 const critical = require('critical');
 const URL = require('url');
 const nodeRsync = require('rsyncwrapper');
+const { NodeSSH } = require('node-ssh');
+
+const cleanOldCriticalFiles = async (input) => {
+  const ssh = new NodeSSH();
+  await ssh.connect({
+    host: input.syncOptions.sshHost
+  });
+  try {
+    await ssh.execCommand(`rm -rf ${input.syncOptions.targetDir}`)
+  } catch (e){}
+  await ssh.dispose()
+};
 
 const generateCriticalCSS = async (input) => {
   for (let page of input.paths) {
@@ -37,6 +49,10 @@ const main = async () => {
   const input = getInput();
   process.env.PUPPETEER_EXECUTABLE_PATH = input.browserPath;
   core.endGroup(); // Action config
+
+  core.startGroup('Clean up');
+  await cleanOldCriticalFiles();
+  core.endGroup()
 
   core.startGroup('Start Critical CSS');
   await generateCriticalCSS(input);

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.7
+Delete old critical files on server first
+
 ## 1.0.6
 Fix optional private key
 
