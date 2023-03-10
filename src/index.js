@@ -1,21 +1,27 @@
 const core = require('@actions/core');
 const { getInput } = require('./config');
 const critical = require('critical');
+const fs = require('fs');
 const URL = require('url');
 const nodeRsync = require('rsyncwrapper');
-const { NodeSSH } = require('node-ssh');
 
-const cleanOldCriticalFiles = async (input) => {
-  const ssh = new NodeSSH();
-  const [username, host] = input.syncOptions.sshHost.split('@');
-  await ssh.connect({
-    host: host,
-    username: username
-  });
-  try {
-    await ssh.execCommand(`rm -rf ${input.syncOptions.targetDir}`)
-  } catch (e){}
-  await ssh.dispose()
+const cleanOldCriticalFiles = async (options) => {
+  fs.mkdirSync(options.src);
+  nodeRsync(
+    options,
+    (error, stdout, stderr, cmd) => {
+      if (error) {
+        core.error(error);
+        core.error(stdout);
+        core.error(stderr);
+        core.error(cmd);
+        process.exit(1);
+      } else {
+        core.info('Rsync cleanup finished');
+        core.info(stdout);
+      }
+    }
+  );
 };
 
 const generateCriticalCSS = async (input) => {
@@ -50,10 +56,24 @@ const main = async () => {
   core.startGroup('Action config');
   const input = getInput();
   process.env.PUPPETEER_EXECUTABLE_PATH = input.browserPath;
+
+  let options = {
+    src: input.destinationPath,
+    dest: `${input.syncOptions.sshHost}:${input.syncOptions.targetDir}`,
+    args: ['-azhcvv'],
+    delete: true,
+    ssh: true,
+    port: input.syncOptions.sshPort
+  };
+
+  if (input.syncOptions.sshPrivateKeyPath.length) {
+    options['privateKey'] = input.syncOptions.sshPrivateKeyPath;
+  }
+
   core.endGroup(); // Action config
 
   core.startGroup('Clean up');
-  await cleanOldCriticalFiles(input);
+  await cleanOldCriticalFiles(options);
   core.endGroup()
 
   core.startGroup('Start Critical CSS');
@@ -64,19 +84,6 @@ const main = async () => {
     core.startGroup(
       `Starting Rsync ${input.destinationPath} -> ${input.syncOptions.targetDir}`
     );
-
-    let options = {
-      src: input.destinationPath,
-      dest: `${input.syncOptions.sshHost}:${input.syncOptions.targetDir}`,
-      args: ['-azhcvv'],
-      delete: true,
-      ssh: true,
-      port: input.syncOptions.sshPort
-    };
-
-    if (input.syncOptions.sshPrivateKeyPath.length) {
-      options['privateKey'] = input.syncOptions.sshPrivateKeyPath;
-    }
 
     nodeRsync(
       options,
