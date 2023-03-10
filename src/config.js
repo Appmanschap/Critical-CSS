@@ -1,7 +1,7 @@
-const core = require('@actions/core');
-const fs = require('fs');
-const { resolve } = require('path');
-const chromeLauncher = require('chrome-launcher').Launcher;
+import core from '@actions/core';
+import fs from 'fs';
+import { resolve } from 'path';
+import { Launcher as chromeLauncher } from 'chrome-launcher';
 
 exports.getInput = function getInputArgs() {
   let serverBaseUrl = core.getInput('serverBaseUrl');
