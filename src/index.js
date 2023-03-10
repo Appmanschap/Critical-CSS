@@ -1,10 +1,9 @@
-import core from '@actions/core';
-import { getInput } from './config';
-import {generate} from 'critical';
-import URL from 'url';
-import nodeRsync from 'rsyncwrapper';
-import { NodeSSH } from 'node-ssh';
-
+const core = require('@actions/core');
+const { getInput } = require('./config');
+const generate = require('critical');
+const URL = require('url');
+const nodeRsync = require('rsyncwrapper');
+const { NodeSSH } = require('node-ssh');
 
 const cleanOldCriticalFiles = async (input) => {
   const ssh = new NodeSSH();
@@ -26,7 +25,6 @@ const generateCriticalCSS = async (input) => {
     core.info(`Generating critical CSS: ${pageUrl.href} -> ${criticalDest}`);
 
     await generate({
-
       src: pageUrl.href,
       target: criticalDest,
       inline: false,
