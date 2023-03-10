@@ -6,6 +6,7 @@ const URL = require('url');
 const nodeRsync = require('rsyncwrapper');
 
 const cleanOldCriticalFiles = async (options) => {
+  core.startGroup('Clean up');
   fs.mkdirSync(options.src);
   nodeRsync(
     options,
@@ -22,6 +23,7 @@ const cleanOldCriticalFiles = async (options) => {
       }
     }
   );
+  core.endGroup()
 };
 
 const generateCriticalCSS = async (input) => {
@@ -72,9 +74,7 @@ const main = async () => {
 
   core.endGroup(); // Action config
 
-  core.startGroup('Clean up');
   await cleanOldCriticalFiles(options);
-  core.endGroup()
 
   core.startGroup('Start Critical CSS');
   await generateCriticalCSS(input);
