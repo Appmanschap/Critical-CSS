@@ -7,8 +7,10 @@ const { NodeSSH } = require('node-ssh');
 
 const cleanOldCriticalFiles = async (input) => {
   const ssh = new NodeSSH();
+  const [username, host] = input.syncOptions.sshHost.split('@');
   await ssh.connect({
-    host: input.syncOptions.sshHost
+    host: host,
+    username: username
   });
   try {
     await ssh.execCommand(`rm -rf ${input.syncOptions.targetDir}`)
