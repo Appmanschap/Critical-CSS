@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const { getInput } = require('./config');
-const generate = require('critical');
+const critical = require('critical');
 const URL = require('url');
 const nodeRsync = require('rsyncwrapper');
 const { NodeSSH } = require('node-ssh');
@@ -24,7 +24,7 @@ const generateCriticalCSS = async (input) => {
 
     core.info(`Generating critical CSS: ${pageUrl.href} -> ${criticalDest}`);
 
-    await generate({
+    await critical.generate({
       src: pageUrl.href,
       target: criticalDest,
       inline: false,
