@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.7 - 1.0.8 - 1.0.9 - 1.0.10
+## 1.0.7 - 1.0.8 - 1.0.9 - 1.0.10 - 1.0.11
 Delete old critical files on server first
 
 ## 1.0.6

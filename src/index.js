@@ -51,7 +51,7 @@ const main = async () => {
   core.endGroup(); // Action config
 
   core.startGroup('Clean up');
-  await cleanOldCriticalFiles();
+  await cleanOldCriticalFiles(input);
   core.endGroup()
 
   core.startGroup('Start Critical CSS');
