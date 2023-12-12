@@ -1,9 +1,9 @@
-const core = require('@actions/core');
-const fs = require('fs');
-const { resolve } = require('path');
-const chromeLauncher = require('chrome-launcher').Launcher;
+import { Launcher as chromeLauncher } from 'chrome-launcher';
+import { resolve } from 'path';
+import fs from 'fs';
+import core from '@actions/core';
 
-exports.getInput = function getInputArgs() {
+export function getInput() {
   let serverBaseUrl = core.getInput('serverBaseUrl');
   if (!serverBaseUrl) {
     // Fail and exit
@@ -72,4 +72,4 @@ exports.getInput = function getInputArgs() {
     shouldSync: shouldSync,
     syncOptions: syncOptions,
   };
-};
+}
