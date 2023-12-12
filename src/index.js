@@ -1,9 +1,9 @@
-import core from '@actions/core';
-import { getInput } from './config.js';
-import { generate } from 'critical';
-import fs from 'fs';
-import { URL } from 'url';
-import nodeRsync from 'rsyncwrapper';
+const core = require('@actions/core');
+const { getInput } = require('./config');
+const critical = require('critical');
+const fs = require('fs');
+const URL = require('url');
+const nodeRsync = require('rsyncwrapper');
 
 const cleanOldCriticalFiles = async (options) => {
   core.startGroup('Clean up');
@@ -23,19 +23,18 @@ const cleanOldCriticalFiles = async (options) => {
       }
     }
   );
-  core.endGroup();
+  core.endGroup()
 };
 
 const generateCriticalCSS = async (input) => {
   for (let page of input.paths) {
-    // const pageUrl = new URL.parse(`${input.baseUrl}${page.url}`);
-    const pageUrl = new URL(page.url, input.baseUrl);
+    const pageUrl = URL.parse(`${input.baseUrl}${page.url}`);
     const criticalDest =
       input.destinationPath + page.template + '_critical.min.css';
 
     core.info(`Generating critical CSS: ${pageUrl.href} -> ${criticalDest}`);
 
-    await generate({
+    await critical.generate({
       src: pageUrl.href,
       target: criticalDest,
       inline: false,

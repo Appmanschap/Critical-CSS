@@ -1,12 +1,5 @@
 # Changelog
 
-## 1.0.12
-Update dependencies
-
-This has some issues because to most dependencies are now pure ESM modules (critical, chrome launcher).
-However, critical depends on `penthouse` which has an ancient version of puppeteer which uses `__dirname` and that
-breaks building with `vercel/ncc`. So we remove ncc and add the entire node_modules directory.
-
 ## 1.0.7 - 1.0.8 - 1.0.9 - 1.0.10 - 1.0.11
 Delete old critical files on server first
 
