@@ -1,9 +1,9 @@
-const core = require('@actions/core');
-const { getInput } = require('./config');
-const critical = require('critical');
-const fs = require('fs');
-const URL = require('url');
-const nodeRsync = require('rsyncwrapper');
+import { URL } from 'url';
+import * as core from '@actions/core';
+import { getInput } from './config.js';
+import { generate } from 'critical';
+import nodeRsync from 'rsyncwrapper';
+import fs from 'fs';
 
 const cleanOldCriticalFiles = async (options) => {
   core.startGroup('Clean up');
@@ -23,18 +23,19 @@ const cleanOldCriticalFiles = async (options) => {
       }
     }
   );
-  core.endGroup()
+  core.endGroup();
 };
 
 const generateCriticalCSS = async (input) => {
   for (let page of input.paths) {
-    const pageUrl = URL.parse(`${input.baseUrl}${page.url}`);
+
+    const pageUrl = new URL(`${input.baseUrl}${page.url}`);
     const criticalDest =
       input.destinationPath + page.template + '_critical.min.css';
 
     core.info(`Generating critical CSS: ${pageUrl.href} -> ${criticalDest}`);
 
-    await critical.generate({
+    await generate({
       src: pageUrl.href,
       target: criticalDest,
       inline: false,
@@ -55,6 +56,8 @@ const generateCriticalCSS = async (input) => {
 };
 
 const main = async () => {
+  const __filename = new URL('', import.meta.url).pathname;
+  const __dirname = new URL('.', import.meta.url).pathname;
   core.startGroup('Action config');
   const input = getInput();
   process.env.PUPPETEER_EXECUTABLE_PATH = input.browserPath;
