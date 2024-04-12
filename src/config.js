@@ -34,13 +34,13 @@ export function getInput() {
   }
 
   const config = JSON.parse(fs.readFileSync(configPath));
-
   if (!config.length) {
     core.setFailed(`Invalid config.`);
     process.exit(1);
   }
 
   const browserPath = chromeLauncher.getFirstInstallation();
+
 
   const shouldSync = core.getInput('sync');
 

@@ -1,0 +1,82 @@
+{
+  "name": "penthouse",
+  "description": "Generate critical path CSS for web pages",
+  "version": "2.3.3",
+  "homepage": "https://github.com/pocketjoso/penthouse",
+  "author": {
+    "name": "Jonas Ohlsson Aden",
+    "email": "jonas.sebastian.ohlsson@gmail.com",
+    "url": "https://jonassebastianohlsson.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pocketjoso/penthouse.git#master"
+  },
+  "bugs": {
+    "url": "https://github.com/pocketjoso/penthouse/issues"
+  },
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "engines": {
+    "node": ">=8.16.0"
+  },
+  "scripts": {
+    "lint": "eslint src",
+    "test": "jest test/core.test.js",
+    "test-all": "jest test/*.test.js && yarn test-extra && yarn test-perf",
+    "test-perf": "jest  --runInBand test/run-sequential/perf.test.js",
+    "test-extra": "jest --runInBand test/run-sequential/node-module.test.js",
+    "prepare": "npm run lint && npm run transpile",
+    "transpile": "babel -d lib src/"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier-standard \"src/**/*.js\"",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "css-mediaquery": "^0.1.2",
+    "css-tree": "1.0.0-alpha.28",
+    "debug": "^4.1.1",
+    "jsesc": "^2.5.2",
+    "puppeteer": "2.1.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-transform-spread": "^7.6.2",
+    "@babel/preset-env": "^7.6.0",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "gm": "^1.23.1",
+    "husky": "^3.0.5",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.2.5",
+    "prettier": "^1.18.2",
+    "prettier-standard": "^15.0.1",
+    "rimraf": "^3.0.0"
+  },
+  "keywords": [
+    "CSS Critical Path Generator",
+    "css",
+    "performance",
+    "build",
+    "tool",
+    "chrome:headless"
+  ],
+  "files": [
+    "lib/**/*.js"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}

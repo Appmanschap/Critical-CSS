@@ -13,9 +13,9 @@
   "dependencies": {
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
-    "chrome-launcher": "^1.1.0",
+    "chrome-launcher": "^1.1.1",
     "command-exists": "^1.2.9",
-    "critical": "^7.1.0",
+    "critical": "^7.1.1",
     "rsyncwrapper": "^3.0.1"
   },
   "devDependencies": {
