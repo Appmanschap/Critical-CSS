@@ -31,8 +31,17 @@ inputs:
         required: true
 
 runs:
-    using: 'node20'
-    main: 'dist/index.js'
+    using: docker
+    image: Dockerfile
+    env:
+        INPUT_SERVERBASEURL: ${{inputs.serverBaseUrl}}
+        INPUT_DESTINATIONPATH: ${{inputs.destinationPath}}
+        INPUT_CONFIGPATH: ${{inputs.configPath}}
+        INPUT_SYNC: ${{inputs.sync}}
+        INPUT_SSHPRIVATEKEYPATH: ${{inputs.sshPrivateKeyPath}}
+        INPUT_SSHHOST: ${{inputs.sshHost}}
+        INPUT_SSHPORT: ${{inputs.sshPort}}
+        INPUT_TARGETDIR: ${{inputs.targetDir}}
 branding:
     icon: 'package'
     color: 'gray-dark'
