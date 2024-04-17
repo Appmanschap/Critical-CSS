@@ -13,7 +13,8 @@ RUN apk --no-cache add  \
     harfbuzz \
     ca-certificates \
     ttf-freefont \
-    && npm i
+    && npm i \
+    && mkdir -p /root/.ssh/
 
 COPY ssh-config ~/.ssh/config
 RUN chmod 600 ~/.ssh/config
