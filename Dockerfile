@@ -15,4 +15,7 @@ RUN apk --no-cache add  \
     ttf-freefont \
     && npm i
 
+COPY ssh-config ~/.ssh/config
+RUN chmod 600 ~/.ssh/config
+
 ENTRYPOINT ["node", "/src/index.js"]
