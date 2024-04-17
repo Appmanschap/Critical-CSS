@@ -18,6 +18,5 @@ RUN apk --no-cache add  \
 
 COPY ssh-config /root/.ssh/config
 RUN chmod 600 /root/.ssh/config
-RUN ssh-add -l
 
 ENTRYPOINT ["node", "/src/index.js"]
