@@ -70,6 +70,7 @@ const generateCriticalCSS = async (input) => {
 
 const main = async () => {
   await exec('eval $(ssh-agent -s)')
+  await exec('ssh-add -l')
   core.startGroup('Action config');
   const input = getInput();
   process.env.PUPPETEER_EXECUTABLE_PATH = input.browserPath;
