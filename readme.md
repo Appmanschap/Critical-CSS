@@ -70,7 +70,7 @@ None for now
     destinationPath: './criticalcss/'
     configPath: './critical-conf.json'
     sync: 'true'
-    sshPrivateKeyPath: '~/.ssh/gaafproject_rsa'
+    sshPrivateKey: 'Private key here'
     sshHost: $SSH_HOST
     targetDir: './public/assets/criticalcss/'
 ```
