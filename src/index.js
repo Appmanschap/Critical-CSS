@@ -69,8 +69,6 @@ const generateCriticalCSS = async (input) => {
 };
 
 const main = async () => {
-  await exec('eval $(ssh-agent -s)')
-  await exec('ssh-add -l')
   core.startGroup('Action config');
   const input = getInput();
   process.env.PUPPETEER_EXECUTABLE_PATH = input.browserPath;
@@ -90,34 +88,34 @@ const main = async () => {
 
   core.endGroup(); // Action config
 
-  await cleanOldCriticalFiles(options);
+  // await cleanOldCriticalFiles(options);
 
   core.startGroup('Start Critical CSS');
   await generateCriticalCSS(input);
   core.endGroup();
 
-  if (input.shouldSync) {
-    core.startGroup(
-      `Starting Rsync ${input.destinationPath} -> ${input.syncOptions.targetDir}`
-    );
-
-    nodeRsync(
-      options,
-      (error, stdout, stderr, cmd) => {
-        if (error) {
-          core.error(error);
-          core.error(stdout);
-          core.error(stderr);
-          core.error(cmd);
-          process.exit(1);
-        } else {
-          core.info('Rsync finished');
-          core.info(stdout);
-        }
-      }
-    );
-    core.endGroup();
-  }
+  // if (input.shouldSync) {
+  //   core.startGroup(
+  //     `Starting Rsync ${input.destinationPath} -> ${input.syncOptions.targetDir}`
+  //   );
+  //
+  //   nodeRsync(
+  //     options,
+  //     (error, stdout, stderr, cmd) => {
+  //       if (error) {
+  //         core.error(error);
+  //         core.error(stdout);
+  //         core.error(stderr);
+  //         core.error(cmd);
+  //         process.exit(1);
+  //       } else {
+  //         core.info('Rsync finished');
+  //         core.info(stdout);
+  //       }
+  //     }
+  //   );
+  //   core.endGroup();
+  // }
 };
 
 main()
