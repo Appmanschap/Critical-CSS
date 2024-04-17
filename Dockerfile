@@ -6,6 +6,7 @@ COPY package.json .
 COPY src ./src
 RUN apk --no-cache add  \
     rsync \
+    ssh \
     chromium \
     nss \
     freetype \
