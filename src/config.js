@@ -47,10 +47,13 @@ export async function getInput() {
   let syncOptions = {};
   if (shouldSync) {
     const sshPrivateKey = core.getInput('sshPrivateKey') || '';
-    let sshKeyPath = ''
-    if(sshPrivateKey.length) {
-      sshKeyPath = './key'
-      await fs.writeFile(sshKeyPath, sshPrivateKey)
+    let sshKeyPath = '';
+    if (sshPrivateKey.length) {
+      sshKeyPath = './key';
+      await fs.writeFile(sshKeyPath, sshPrivateKey, {
+        mode: 0o600,
+        encoding: 'utf8'
+      });
     }
     const sshHost = core.getInput('sshHost');
     const sshPort = core.getInput('sshPort');
@@ -65,7 +68,7 @@ export async function getInput() {
       sshPrivateKey: sshKeyPath,
       sshHost: sshHost,
       sshPort: sshPort,
-      targetDir: targetDir,
+      targetDir: targetDir
     };
   }
 
@@ -75,6 +78,6 @@ export async function getInput() {
     paths: config,
     browserPath: browserPath,
     shouldSync: shouldSync,
-    syncOptions: syncOptions,
+    syncOptions: syncOptions
   };
 }
