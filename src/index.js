@@ -4,7 +4,10 @@ import { getInput } from './config.js';
 import { generate } from 'critical';
 import nodeRsync from 'rsyncwrapper';
 import fs from 'fs';
+import * as child_process from 'node:child_process';
 import * as ChromeLauncher from 'chrome-launcher';
+import * as util from 'node:util';
+const exec = util.promisify(child_process.exec);
 
 const cleanOldCriticalFiles = async (options) => {
   core.startGroup('Clean up');
@@ -66,6 +69,7 @@ const generateCriticalCSS = async (input) => {
 };
 
 const main = async () => {
+  await exec('eval $(ssh-agent -s)')
   core.startGroup('Action config');
   const input = getInput();
   process.env.PUPPETEER_EXECUTABLE_PATH = input.browserPath;
