@@ -15,13 +15,13 @@ inputs:
         description: 'Should the generated files be synced to the remote server'
         required: false
         default: 'true'
-    sshPrivateKeyPath:
-        description: 'Optional ssh options'
+    sshPrivateKey:
+        description: 'Private SSH KEY'
         required: false
         default: ''
     sshHost:
         description: 'The host to connect to in user@host format'
-        required: true
+        required: false
     sshPort:
         description: 'The ssh port in string format'
         required: false
@@ -31,8 +31,17 @@ inputs:
         required: true
 
 runs:
-    using: 'node16'
-    main: 'dist/index.js'
+    using: docker
+    image: ghcr.io/appmanschap/critical-css-action:updates
+    env:
+        INPUT_SERVERBASEURL: ${{inputs.serverBaseUrl}}
+        INPUT_DESTINATIONPATH: ${{inputs.destinationPath}}
+        INPUT_CONFIGPATH: ${{inputs.configPath}}
+        INPUT_SYNC: ${{inputs.sync}}
+        INPUT_SSHPRIVATEKEY: ${{inputs.sshPrivateKey}}
+        INPUT_SSHHOST: ${{inputs.sshHost}}
+        INPUT_SSHPORT: ${{inputs.sshPort}}
+        INPUT_TARGETDIR: ${{inputs.targetDir}}
 branding:
     icon: 'package'
     color: 'gray-dark'

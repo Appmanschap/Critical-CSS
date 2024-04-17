@@ -70,15 +70,10 @@ None for now
     destinationPath: './criticalcss/'
     configPath: './critical-conf.json'
     sync: 'true'
-    sshPrivateKeyPath: '~/.ssh/gaafproject_rsa'
+    sshPrivateKey: 'Private key here'
     sshHost: $SSH_HOST
     targetDir: './public/assets/criticalcss/'
 ```
 
-## Development
-When committing this action, make sure to also commit the _entire_ `node_modules` directory.
-Also make sure to skip installation of chrome when running yarn:
-`echo "export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true && yarn" | sh`
-
 ## Building
-Run `npm run package` to build the package
+Run `npm run build` to build the package

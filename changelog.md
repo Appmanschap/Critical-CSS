@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.0
+Update dependencies
+
+Due to Node.js & dependency updates we now use type `module` (e.g. esm). 
+This breaks ncc, so we refactored this action to a Docker action instead.
+
+Also switch to TypeScript
+
 ## 1.0.7 - 1.0.8 - 1.0.9 - 1.0.10 - 1.0.11
 Delete old critical files on server first
 

@@ -1,28 +1,39 @@
 {
   "name": "criticalcss-action",
-  "version": "1.0.12",
+  "version": "2.0.0",
   "description": "",
+  "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "package": "ncc build --source-map --license licenses.txt"
+    "build": "tsup src/index.ts --clean --minify --sourcemap --dts --format cjs,esm"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@actions/core": "^1.10.1",
-    "@actions/github": "^5.1.1",
-    "chrome-launcher": "^0.15.2",
+    "@actions/github": "^6.0.0",
+    "chrome-launcher": "^1.1.1",
     "command-exists": "^1.2.9",
-    "critical": "^4.0.1",
+    "critical": "^7.1.1",
     "rsyncwrapper": "^3.0.1"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.38.1"
+    "esbuild": "^0.20.2",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
   },
   "pnpm": {
     "overrides": {
       "nth-check@<2.0.1": ">=2.0.1"
+    },
+    "supportedArchitectures": {
+      "os": [
+        "linux"
+      ],
+      "cpu": [
+        "x64"
+      ]
     }
   }
 }
