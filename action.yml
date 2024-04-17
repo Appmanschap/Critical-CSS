@@ -32,7 +32,7 @@ inputs:
 
 runs:
     using: docker
-    image: Dockerfile
+    image: appmanschap/critical-css-action:updates
     env:
         INPUT_SERVERBASEURL: ${{inputs.serverBaseUrl}}
         INPUT_DESTINATIONPATH: ${{inputs.destinationPath}}
