@@ -2,8 +2,6 @@ FROM node:lts-alpine3.19
 LABEL authors="aal"
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
-COPY package.json .
-COPY src ./src
 RUN apk --no-cache add  \
     rsync \
     openssh-client \
@@ -13,10 +11,21 @@ RUN apk --no-cache add  \
     harfbuzz \
     ca-certificates \
     ttf-freefont \
-    && npm i \
-    && mkdir -p /root/.ssh/
+    sudo
 
-COPY ssh-config /root/.ssh/config
-RUN chmod 600 /root/.ssh/config
+RUN mkdir -p /etc/sudoers.d \
+        && echo "node ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/node \
+        && chmod 0440 /etc/sudoers.d/node
 
-ENTRYPOINT ["node", "/src/index.js"]
+RUN mkdir -p /home/node/.ssh/
+COPY package.json /home/node/package.json
+COPY src /home/node/src
+COPY ssh-config /home/node/.ssh/config
+
+RUN chmod 600 /home/node/.ssh/config && chown -R node.node /home/node
+
+USER node
+WORKDIR /home/node
+RUN npm i
+
+ENTRYPOINT ["top", "-b"]

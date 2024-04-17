@@ -15,8 +15,8 @@ inputs:
         description: 'Should the generated files be synced to the remote server'
         required: false
         default: 'true'
-    sshPrivateKeyPath:
-        description: 'Optional ssh options'
+    sshPrivateKey:
+        description: 'Private SSH KEY'
         required: false
         default: ''
     sshHost:
@@ -38,7 +38,7 @@ runs:
         INPUT_DESTINATIONPATH: ${{inputs.destinationPath}}
         INPUT_CONFIGPATH: ${{inputs.configPath}}
         INPUT_SYNC: ${{inputs.sync}}
-        INPUT_SSHPRIVATEKEYPATH: ${{inputs.sshPrivateKeyPath}}
+        INPUT_SSHPRIVATEKEY: ${{inputs.sshPrivateKey}}
         INPUT_SSHHOST: ${{inputs.sshHost}}
         INPUT_SSHPORT: ${{inputs.sshPort}}
         INPUT_TARGETDIR: ${{inputs.targetDir}}

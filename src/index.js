@@ -3,15 +3,11 @@ import * as core from '@actions/core';
 import { getInput } from './config.js';
 import { generate } from 'critical';
 import nodeRsync from 'rsyncwrapper';
-import fs from 'fs';
-import * as child_process from 'node:child_process';
-import * as ChromeLauncher from 'chrome-launcher';
-import * as util from 'node:util';
-const exec = util.promisify(child_process.exec);
+import fs from 'node:fs/promises';
 
 const cleanOldCriticalFiles = async (options) => {
   core.startGroup('Clean up');
-  fs.mkdirSync(options.src);
+  await fs.mkdir(options.src);
   nodeRsync(
     options,
     (error, stdout, stderr, cmd) => {
@@ -38,12 +34,6 @@ const generateCriticalCSS = async (input) => {
       input.destinationPath + page.template + '_critical.min.css';
 
     core.info(`Generating critical CSS: ${pageUrl.href} -> ${criticalDest}`);
-
-    async function getBrowser() {
-      return ChromeLauncher.launch({
-        chromeFlags: ['--headless=new']
-      });
-    }
 
     await generate({
       src: pageUrl.href,
@@ -82,40 +72,40 @@ const main = async () => {
     port: input.syncOptions.sshPort
   };
 
-  if (input.syncOptions.sshPrivateKeyPath.length) {
-    options['privateKey'] = input.syncOptions.sshPrivateKeyPath;
+  if (input.syncOptions.sshPrivateKey.length) {
+    options['privateKey'] = input.syncOptions.sshPrivateKey;
   }
 
   core.endGroup(); // Action config
 
-  // await cleanOldCriticalFiles(options);
+  await cleanOldCriticalFiles(options);
 
   core.startGroup('Start Critical CSS');
   await generateCriticalCSS(input);
   core.endGroup();
 
-  // if (input.shouldSync) {
-  //   core.startGroup(
-  //     `Starting Rsync ${input.destinationPath} -> ${input.syncOptions.targetDir}`
-  //   );
-  //
-  //   nodeRsync(
-  //     options,
-  //     (error, stdout, stderr, cmd) => {
-  //       if (error) {
-  //         core.error(error);
-  //         core.error(stdout);
-  //         core.error(stderr);
-  //         core.error(cmd);
-  //         process.exit(1);
-  //       } else {
-  //         core.info('Rsync finished');
-  //         core.info(stdout);
-  //       }
-  //     }
-  //   );
-  //   core.endGroup();
-  // }
+  if (input.shouldSync) {
+    core.startGroup(
+      `Starting Rsync ${input.destinationPath} -> ${input.syncOptions.targetDir}`
+    );
+
+    nodeRsync(
+      options,
+      (error, stdout, stderr, cmd) => {
+        if (error) {
+          core.error(error);
+          core.error(stdout);
+          core.error(stderr);
+          core.error(cmd);
+          process.exit(1);
+        } else {
+          core.info('Rsync finished');
+          core.info(stdout);
+        }
+      }
+    );
+    core.endGroup();
+  }
 };
 
 main()

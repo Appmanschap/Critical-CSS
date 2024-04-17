@@ -12,7 +12,7 @@ export function getInput() {
   }
 
   // Make sure we end with a '/'
-  if (serverBaseUrl.substr(-1) !== '/') {
+  if (serverBaseUrl.substring(-1) !== '/') {
     serverBaseUrl += '/';
   }
 
@@ -46,7 +46,7 @@ export function getInput() {
 
   let syncOptions = {};
   if (shouldSync) {
-    const sshPrivateKeyPath = core.getInput('sshPrivateKeyPath');
+    const sshPrivateKey = core.getInput('sshPrivateKey') || '';
     const sshHost = core.getInput('sshHost');
     const sshPort = core.getInput('sshPort');
     const targetDir = core.getInput('targetDir');
@@ -57,7 +57,7 @@ export function getInput() {
     }
 
     syncOptions = {
-      sshPrivateKeyPath: sshPrivateKeyPath,
+      sshPrivateKey: sshPrivateKey,
       sshHost: sshHost,
       sshPort: sshPort,
       targetDir: targetDir,
