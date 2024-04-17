@@ -24,7 +24,7 @@ COPY ssh-config /home/node/.ssh/config
 
 RUN chmod 600 /home/node/.ssh/config && chown -R node.node /home/node
 
-RUN npm i
+RUN npm i --omit=dev
 USER node
 
 ENTRYPOINT ["node", "/dist/index.js"]
