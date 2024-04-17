@@ -1,11 +1,29 @@
 import { URL } from 'url';
 import * as core from '@actions/core';
-import { getInput } from './config.js';
+import { getInput } from './config';
 import { generate } from 'critical';
 import nodeRsync from 'rsyncwrapper';
 import fs from 'node:fs/promises';
 
-const cleanOldCriticalFiles = async (options) => {
+const getRsyncOptions = (input: Config): RsyncOptions | null => {
+
+  let options: RsyncOptions | null = null;
+
+  if (input.shouldSync && input.syncOptions !== null) {
+    options = {
+      src: input.destinationPath,
+      dest: `${input.syncOptions.sshHost}:${input.syncOptions.targetDir}`,
+      args: ['-azhcvv'],
+      delete: true,
+      ssh: true,
+      port: input.syncOptions.sshPort,
+      privateKey: input.syncOptions.sshPrivateKey
+    };
+  }
+  return options;
+};
+
+const cleanOldCriticalFiles = async (options: RsyncOptions) => {
   core.startGroup('Clean up');
   await fs.mkdir(options.src);
   nodeRsync(
@@ -26,9 +44,8 @@ const cleanOldCriticalFiles = async (options) => {
   core.endGroup();
 };
 
-const generateCriticalCSS = async (input) => {
+const generateCriticalCSS = async (input: Config) => {
   for (let page of input.paths) {
-    console.log(page);
     const pageUrl = new URL(`${input.baseUrl}${page.url}`);
     const criticalDest =
       input.destinationPath + page.template + '_critical.min.css';
@@ -61,37 +78,27 @@ const generateCriticalCSS = async (input) => {
 const main = async () => {
   core.startGroup('Action config');
   const input = await getInput();
-  console.log(input);
   process.env.PUPPETEER_EXECUTABLE_PATH = input.browserPath;
 
-  let options = {
-    src: input.destinationPath,
-    dest: `${input.syncOptions.sshHost}:${input.syncOptions.targetDir}`,
-    args: ['-azhcvv'],
-    delete: true,
-    ssh: true,
-    port: input.syncOptions.sshPort
-  };
-
-  if (input.syncOptions.sshPrivateKey.length) {
-    options['privateKey'] = input.syncOptions.sshPrivateKey;
-  }
+  let rsyncOptions = getRsyncOptions(input);
 
   core.endGroup(); // Action config
 
-  await cleanOldCriticalFiles(options);
+  if (rsyncOptions !== null) {
+    await cleanOldCriticalFiles(rsyncOptions);
+  }
 
   core.startGroup('Start Critical CSS');
   await generateCriticalCSS(input);
   core.endGroup();
 
-  if (input.shouldSync) {
+  if (input.shouldSync && rsyncOptions !== null) {
     core.startGroup(
-      `Starting Rsync ${input.destinationPath} -> ${input.syncOptions.targetDir}`
+      `Starting Rsync ${input.destinationPath} -> ${input?.syncOptions?.targetDir}`
     );
 
     nodeRsync(
-      options,
+      rsyncOptions,
       (error, stdout, stderr, cmd) => {
         if (error) {
           core.error(error);

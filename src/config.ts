@@ -50,9 +50,9 @@ const getSyncOptions = async () => {
     sshPort: sshPort,
     targetDir: targetDir
   };
-}
+};
 
-export async function getInput() {
+export async function getInput(): Promise<Config> {
   let serverBaseUrl = core.getInput('serverBaseUrl');
   if (!serverBaseUrl) {
     // Fail and exit
@@ -81,8 +81,7 @@ export async function getInput() {
     core.setFailed(`Config file not found or invalid configPath.`);
     process.exit(1);
   }
-
-  const config = JSON.parse(await fs.readFile(configPath));
+  const config = JSON.parse(await fs.readFile(configPath, 'utf-8'));
   if (!config.length) {
     core.setFailed(`Invalid config.`);
     process.exit(1);
@@ -91,11 +90,11 @@ export async function getInput() {
   const browserPath = chromeLauncher.getFirstInstallation();
 
 
-  const shouldSync = core.getInput('sync');
+  const shouldSync = core.getInput('sync') === 'true';
 
-  let syncOptions = {};
+  let syncOptions = null;
   if (shouldSync) {
-    syncOptions = await getSyncOptions()
+    syncOptions = await getSyncOptions();
   }
 
   return {

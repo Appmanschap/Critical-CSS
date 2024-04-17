@@ -19,7 +19,7 @@ RUN mkdir -p /etc/sudoers.d \
 
 RUN mkdir -p /home/node/.ssh/
 COPY package.json .
-COPY src ./src
+COPY dist ./dist
 COPY ssh-config /home/node/.ssh/config
 
 RUN chmod 600 /home/node/.ssh/config && chown -R node.node /home/node
@@ -27,4 +27,4 @@ RUN chmod 600 /home/node/.ssh/config && chown -R node.node /home/node
 RUN npm i
 USER node
 
-ENTRYPOINT ["node", "/src/index.js"]
+ENTRYPOINT ["node", "/dist/index.js"]
