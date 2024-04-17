@@ -17,15 +17,14 @@ RUN mkdir -p /etc/sudoers.d \
         && echo "node ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/node \
         && chmod 0440 /etc/sudoers.d/node
 
-RUN mkdir -p /home/node/.ssh/ && mkdir -p /github/workspace
-COPY package.json /github/workspace/package.json
-COPY src /github/workspace/src
+RUN mkdir -p /home/node/.ssh/
+COPY package.json .
+COPY src ./src
 COPY ssh-config /home/node/.ssh/config
 
-RUN chmod 600 /home/node/.ssh/config && chown -R node.node /home/node && chown -R node.node /github/workspace
+RUN chmod 600 /home/node/.ssh/config && chown -R node.node /home/node
 
-USER node
-WORKDIR /github/workspace
 RUN npm i
+USER node
 
 ENTRYPOINT ["node", "src/index.js"]
