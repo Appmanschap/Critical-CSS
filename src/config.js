@@ -46,12 +46,12 @@ export async function getInput() {
 
   let syncOptions = {};
   if (shouldSync) {
-    // const sshPrivateKey = core.getInput('sshPrivateKey') || '';
-    // let sshKeyPath = ''
-    // if(sshPrivateKey.length) {
-    //   sshKeyPath = './key'
-    //   await fs.writeFile(sshKeyPath, sshPrivateKey)
-    // }
+    const sshPrivateKey = core.getInput('sshPrivateKey') || '';
+    let sshKeyPath = ''
+    if(sshPrivateKey.length) {
+      sshKeyPath = './key'
+      await fs.writeFile(sshKeyPath, sshPrivateKey)
+    }
     const sshHost = core.getInput('sshHost');
     const sshPort = core.getInput('sshPort');
     const targetDir = core.getInput('targetDir');

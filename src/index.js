@@ -61,6 +61,7 @@ const generateCriticalCSS = async (input) => {
 const main = async () => {
   core.startGroup('Action config');
   const input = getInput();
+  console.log(input);
   process.env.PUPPETEER_EXECUTABLE_PATH = input.browserPath;
 
   let options = {
