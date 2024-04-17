@@ -28,4 +28,4 @@ USER node
 WORKDIR /home/node
 RUN npm i
 
-ENTRYPOINT ["top", "-b"]
+ENTRYPOINT ["node", "src/index.js"]
