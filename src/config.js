@@ -1,9 +1,9 @@
 import core from '@actions/core';
-import fs from 'fs';
+import fs from 'node:fs/promises';
 import { resolve } from 'path';
 import { Launcher as chromeLauncher } from 'chrome-launcher';
 
-export function getInput() {
+export async function getInput() {
   let serverBaseUrl = core.getInput('serverBaseUrl');
   if (!serverBaseUrl) {
     // Fail and exit
@@ -33,7 +33,7 @@ export function getInput() {
     process.exit(1);
   }
 
-  const config = JSON.parse(fs.readFileSync(configPath));
+  const config = JSON.parse(await fs.readFile(configPath));
   if (!config.length) {
     core.setFailed(`Invalid config.`);
     process.exit(1);
@@ -47,6 +47,11 @@ export function getInput() {
   let syncOptions = {};
   if (shouldSync) {
     const sshPrivateKey = core.getInput('sshPrivateKey') || '';
+    let sshKeyPath = ''
+    if(sshPrivateKey.length) {
+      sshKeyPath = './key'
+      await fs.writeFile(sshKeyPath, sshPrivateKey)
+    }
     const sshHost = core.getInput('sshHost');
     const sshPort = core.getInput('sshPort');
     const targetDir = core.getInput('targetDir');
@@ -57,7 +62,7 @@ export function getInput() {
     }
 
     syncOptions = {
-      sshPrivateKey: sshPrivateKey,
+      sshPrivateKey: sshKeyPath,
       sshHost: sshHost,
       sshPort: sshPort,
       targetDir: targetDir,
