@@ -50,13 +50,10 @@ export async function getInput() {
     let sshKeyPath = '';
     if (sshPrivateKey.length) {
       sshKeyPath = './key';
-      await fs.writeFile(sshKeyPath, sshPrivateKey, {
+      await fs.writeFile(sshKeyPath, `${sshPrivateKey}\n`, {
         mode: 0o600,
         encoding: 'utf8'
       });
-      await fs.appendFile('./key', '\r', {
-        encoding: 'utf8'
-      })
     }
     const sshHost = core.getInput('sshHost');
     const sshPort = core.getInput('sshPort');
