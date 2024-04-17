@@ -16,7 +16,7 @@ RUN apk --no-cache add  \
     && npm i \
     && mkdir -p /root/.ssh/
 
-COPY ssh-config ~/.ssh/config
-RUN chmod 600 ~/.ssh/config
+COPY ssh-config /root/.ssh/config
+RUN chmod 600 /root/.ssh/config
 
 ENTRYPOINT ["node", "/src/index.js"]
