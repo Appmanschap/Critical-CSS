@@ -27,4 +27,4 @@ RUN chmod 600 /home/node/.ssh/config && chown -R node.node /home/node
 RUN npm i
 USER node
 
-ENTRYPOINT ["node", "src/index.js"]
+ENTRYPOINT ["node", "/src/index.js"]
