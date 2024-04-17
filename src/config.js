@@ -3,6 +3,55 @@ import fs from 'node:fs/promises';
 import { resolve } from 'path';
 import { Launcher as chromeLauncher } from 'chrome-launcher';
 
+const getSyncOptions = async () => {
+  const sshPrivateKey = core.getInput('sshPrivateKey');
+  if (!sshPrivateKey) {
+    // Fail and exit
+    core.setFailed(`Sync enabled, but no sshPrivateKey supplied.`);
+    process.exit(1);
+  }
+
+  const sshHost = core.getInput('sshHost');
+  if (!sshHost) {
+    // Fail and exit
+    core.setFailed(`Sync enabled, but no sshHost supplied.`);
+    process.exit(1);
+  }
+  const sshPort = core.getInput('sshPort');
+  if (!sshPort) {
+    // Fail and exit
+    core.setFailed(`Sync enabled, but no sshPort supplied.`);
+    process.exit(1);
+  }
+  const targetDir = core.getInput('targetDir');
+  if (!targetDir) {
+    // Fail and exit
+    core.setFailed(`Sync enabled, but no targetDir supplied.`);
+    process.exit(1);
+  }
+
+  // Generate private key for rsync
+  const sshKeyPath = './key';
+  if (sshPrivateKey.length) {
+    await fs.writeFile(sshKeyPath, `${sshPrivateKey}\n`, {
+      mode: 0o600,
+      encoding: 'utf8'
+    });
+  }
+
+  if (!sshHost || !targetDir) {
+    core.setFailed(`Invalid ssh options provided.`);
+    process.exit(1);
+  }
+
+  return {
+    sshPrivateKey: sshKeyPath,
+    sshHost: sshHost,
+    sshPort: sshPort,
+    targetDir: targetDir
+  };
+}
+
 export async function getInput() {
   let serverBaseUrl = core.getInput('serverBaseUrl');
   if (!serverBaseUrl) {
@@ -46,30 +95,7 @@ export async function getInput() {
 
   let syncOptions = {};
   if (shouldSync) {
-    const sshPrivateKey = core.getInput('sshPrivateKey') || '';
-    let sshKeyPath = '';
-    if (sshPrivateKey.length) {
-      sshKeyPath = './key';
-      await fs.writeFile(sshKeyPath, `${sshPrivateKey}\n`, {
-        mode: 0o600,
-        encoding: 'utf8'
-      });
-    }
-    const sshHost = core.getInput('sshHost');
-    const sshPort = core.getInput('sshPort');
-    const targetDir = core.getInput('targetDir');
-
-    if (!sshHost || !targetDir) {
-      core.setFailed(`Invalid ssh options provided.`);
-      process.exit(1);
-    }
-
-    syncOptions = {
-      sshPrivateKey: sshKeyPath,
-      sshHost: sshHost,
-      sshPort: sshPort,
-      targetDir: targetDir
-    };
+    syncOptions = await getSyncOptions()
   }
 
   return {
