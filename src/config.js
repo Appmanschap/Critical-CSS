@@ -54,6 +54,9 @@ export async function getInput() {
         mode: 0o600,
         encoding: 'utf8'
       });
+      await fs.appendFile('./key', '\r', {
+        encoding: 'utf8'
+      })
     }
     const sshHost = core.getInput('sshHost');
     const sshPort = core.getInput('sshPort');
