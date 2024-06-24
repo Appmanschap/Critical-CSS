@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.1
+Update dependencies & fix security warnings
+
 ## 2.0.0
 Update dependencies
 
