@@ -1,6 +1,6 @@
 {
   "name": "criticalcss-action",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "",
   "type": "module",
   "main": "src/index.js",
@@ -12,16 +12,16 @@
   "license": "ISC",
   "dependencies": {
     "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.0",
-    "chrome-launcher": "^1.1.2",
+    "@actions/github": "^6.0.1",
+    "chrome-launcher": "^1.2.0",
     "command-exists": "^1.2.9",
     "critical": "^7.2.1",
     "rsyncwrapper": "^3.1.0"
   },
   "devDependencies": {
-    "esbuild": "^0.25.1",
-    "tsup": "^8.4.0",
-    "typescript": "^5.8.2"
+    "esbuild": "^0.25.8",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
   },
   "pnpm": {
     "overrides": {
