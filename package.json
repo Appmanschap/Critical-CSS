@@ -1,6 +1,6 @@
 {
   "name": "criticalcss-action",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "",
   "type": "module",
   "main": "src/index.js",
@@ -19,9 +19,9 @@
     "rsyncwrapper": "^3.1.0"
   },
   "devDependencies": {
-    "esbuild": "^0.25.8",
+    "esbuild": "^0.25.10",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "pnpm": {
     "overrides": {
