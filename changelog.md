@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0
+
+Use proper versioning to prevent cache issues on runner
+
 ## 2.0.10
 
 Update dependencies and fix (some) security warnings
