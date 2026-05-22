@@ -10,14 +10,14 @@ type Config = {
   browserPath?: string;
   shouldSync: boolean;
   syncOptions: SyncOptions | null;
-}
+};
 
 type SyncOptions = {
   sshPrivateKey: string;
   sshHost: string;
   sshPort: string;
   targetDir: string;
-}
+};
 
 type RsyncOptions = {
   src: string;
@@ -27,4 +27,4 @@ type RsyncOptions = {
   ssh: boolean;
   port: string;
   privateKey: string;
-}
+};

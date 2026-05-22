@@ -1,4 +1,4 @@
-import core from '@actions/core';
+import * as core from '@actions/core';
 import fs from 'node:fs/promises';
 import { resolve } from 'path';
 import { Launcher as chromeLauncher } from 'chrome-launcher';
@@ -35,7 +35,7 @@ const getSyncOptions = async () => {
   if (sshPrivateKey.length) {
     await fs.writeFile(sshKeyPath, `${sshPrivateKey}\n`, {
       mode: 0o600,
-      encoding: 'utf8'
+      encoding: 'utf8',
     });
   }
 
@@ -48,7 +48,7 @@ const getSyncOptions = async () => {
     sshPrivateKey: sshKeyPath,
     sshHost: sshHost,
     sshPort: sshPort,
-    targetDir: targetDir
+    targetDir: targetDir,
   };
 };
 
@@ -72,9 +72,7 @@ export async function getInput(): Promise<Config> {
     process.exit(1);
   }
 
-  const configPath = core.getInput('configPath')
-    ? resolve(core.getInput('configPath'))
-    : null;
+  const configPath = core.getInput('configPath') ? resolve(core.getInput('configPath')) : null;
 
   if (!configPath) {
     // Fail and exit
@@ -89,7 +87,6 @@ export async function getInput(): Promise<Config> {
 
   const browserPath = chromeLauncher.getFirstInstallation();
 
-
   const shouldSync = core.getInput('sync') === 'true';
 
   let syncOptions = null;
@@ -103,6 +100,6 @@ export async function getInput(): Promise<Config> {
     paths: config,
     browserPath: browserPath,
     shouldSync: shouldSync,
-    syncOptions: syncOptions
+    syncOptions: syncOptions,
   };
 }

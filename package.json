@@ -1,26 +1,29 @@
 {
   "name": "criticalcss-action",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
     "build": "tsdown src/index.ts --clean --minify --sourcemap --dts --format esm"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@actions/core": "^3.0.0",
-    "@actions/github": "^9.0.0",
+    "@actions/core": "^3.0.1",
+    "@actions/github": "^9.1.1",
     "chrome-launcher": "^1.2.1",
     "command-exists": "^1.2.9",
-    "critical": "^7.2.1",
+    "critical": "^8.0.0",
     "rsyncwrapper": "^3.1.0"
   },
   "devDependencies": {
-    "tsdown": "^0.21.5",
-    "typescript": "^6.0.2"
+    "oxfmt": "^0.50.0",
+    "oxlint": "^1.65.0",
+    "oxlint-tsgolint": "^0.23.0",
+    "tsdown": "^0.22.0",
+    "typescript": "^6.0.3"
   },
   "pnpm": {
     "overrides": {

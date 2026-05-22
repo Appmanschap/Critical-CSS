@@ -1,12 +1,11 @@
 import { URL } from 'url';
 import * as core from '@actions/core';
-import { getInput } from './config';
+import { getInput } from './config.js';
 import { generate } from 'critical';
 import nodeRsync from 'rsyncwrapper';
 import fs from 'node:fs/promises';
 
 const getRsyncOptions = (input: Config): RsyncOptions | null => {
-
   let options: RsyncOptions | null = null;
 
   if (input.shouldSync && input.syncOptions !== null) {
@@ -17,7 +16,7 @@ const getRsyncOptions = (input: Config): RsyncOptions | null => {
       delete: true,
       ssh: true,
       port: input.syncOptions.sshPort,
-      privateKey: input.syncOptions.sshPrivateKey
+      privateKey: input.syncOptions.sshPrivateKey,
     };
   }
   return options;
@@ -26,29 +25,25 @@ const getRsyncOptions = (input: Config): RsyncOptions | null => {
 const cleanOldCriticalFiles = async (options: RsyncOptions) => {
   core.startGroup('Clean up');
   await fs.mkdir(options.src);
-  nodeRsync(
-    options,
-    (error, stdout, stderr, cmd) => {
-      if (error) {
-        core.error(error);
-        core.error(stdout);
-        core.error(stderr);
-        core.error(cmd);
-        process.exit(1);
-      } else {
-        core.info('Rsync cleanup finished');
-        core.info(stdout);
-      }
+  nodeRsync(options, (error, stdout, stderr, cmd) => {
+    if (error) {
+      core.error(error);
+      core.error(stdout);
+      core.error(stderr);
+      core.error(cmd);
+      process.exit(1);
+    } else {
+      core.info('Rsync cleanup finished');
+      core.info(stdout);
     }
-  );
+  });
   core.endGroup();
 };
 
 const generateCriticalCSS = async (input: Config) => {
   for (let page of input.paths) {
     const pageUrl = new URL(`${input.baseUrl}${page.url}`);
-    const criticalDest =
-      input.destinationPath + page.template + '_critical.min.css';
+    const criticalDest = input.destinationPath + page.template + '_critical.min.css';
 
     core.info(`Generating critical CSS: ${pageUrl.href} -> ${criticalDest}`);
 
@@ -57,20 +52,20 @@ const generateCriticalCSS = async (input: Config) => {
       target: criticalDest,
       inline: false,
       penthouse: {
-        chromeFlags: {}
+        chromeFlags: {},
       },
       ignore: [],
       //   minify: true,
       dimensions: [
         {
           width: 375,
-          height: 667
+          height: 667,
         },
         {
           width: 1440,
-          height: 1280
-        }
-      ]
+          height: 1280,
+        },
+      ],
     });
   }
 };
@@ -93,32 +88,28 @@ const main = async () => {
   core.endGroup();
 
   if (input.shouldSync && rsyncOptions !== null) {
-    core.startGroup(
-      `Starting Rsync ${input.destinationPath} -> ${input?.syncOptions?.targetDir}`
-    );
+    core.startGroup(`Starting Rsync ${input.destinationPath} -> ${input?.syncOptions?.targetDir}`);
 
-    nodeRsync(
-      rsyncOptions,
-      (error, stdout, stderr, cmd) => {
-        if (error) {
-          core.error(error);
-          core.error(stdout);
-          core.error(stderr);
-          core.error(cmd);
-          process.exit(1);
-        } else {
-          core.info('Rsync finished');
-          core.info(stdout);
-        }
+    nodeRsync(rsyncOptions, (error, stdout, stderr, cmd) => {
+      if (error) {
+        core.error(error);
+        core.error(stdout);
+        core.error(stderr);
+        core.error(cmd);
+        // @ts-ignore: Unreachable code error
+        process.exit(1);
+      } else {
+        core.info('Rsync finished');
+        core.info(stdout);
       }
-    );
+    });
     core.endGroup();
   }
 };
 
 main()
+  .then(() => core.debug(`done in ${process.uptime()}s`))
   .catch((err) => {
     core.setFailed(err.message);
     process.exit(1);
-  })
-  .then(() => core.debug(`done in ${process.uptime()}s`));
+  });

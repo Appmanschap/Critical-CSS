@@ -1,47 +1,47 @@
 name: 'Critical CSS'
 description: 'Generate Critical CSS'
 inputs:
-    serverBaseUrl:
-        description: 'The base url of the site'
-        required: true
-    destinationPath:
-        description: 'The destination path to store the generated files'
-        required: false
-        default: './criticalcss/'
-    configPath:
-        description: 'Path to config file'
-        required: true
-    sync:
-        description: 'Should the generated files be synced to the remote server'
-        required: false
-        default: 'true'
-    sshPrivateKey:
-        description: 'Private SSH KEY'
-        required: false
-        default: ''
-    sshHost:
-        description: 'The host to connect to in user@host format'
-        required: false
-    sshPort:
-        description: 'The ssh port in string format'
-        required: false
-        default: '22'
-    targetDir:
-        description: 'Directory to store generated files'
-        required: true
+  serverBaseUrl:
+    description: 'The base url of the site'
+    required: true
+  destinationPath:
+    description: 'The destination path to store the generated files'
+    required: false
+    default: './criticalcss/'
+  configPath:
+    description: 'Path to config file'
+    required: true
+  sync:
+    description: 'Should the generated files be synced to the remote server'
+    required: false
+    default: 'true'
+  sshPrivateKey:
+    description: 'Private SSH KEY'
+    required: false
+    default: ''
+  sshHost:
+    description: 'The host to connect to in user@host format'
+    required: false
+  sshPort:
+    description: 'The ssh port in string format'
+    required: false
+    default: '22'
+  targetDir:
+    description: 'Directory to store generated files'
+    required: true
 
 runs:
-    using: docker
-    image: ghcr.io/appmanschap/critical-css-action:main
-    env:
-        INPUT_SERVERBASEURL: ${{inputs.serverBaseUrl}}
-        INPUT_DESTINATIONPATH: ${{inputs.destinationPath}}
-        INPUT_CONFIGPATH: ${{inputs.configPath}}
-        INPUT_SYNC: ${{inputs.sync}}
-        INPUT_SSHPRIVATEKEY: ${{inputs.sshPrivateKey}}
-        INPUT_SSHHOST: ${{inputs.sshHost}}
-        INPUT_SSHPORT: ${{inputs.sshPort}}
-        INPUT_TARGETDIR: ${{inputs.targetDir}}
+  using: docker
+  image: ghcr.io/appmanschap/critical-css-action:main
+  env:
+    INPUT_SERVERBASEURL: ${{inputs.serverBaseUrl}}
+    INPUT_DESTINATIONPATH: ${{inputs.destinationPath}}
+    INPUT_CONFIGPATH: ${{inputs.configPath}}
+    INPUT_SYNC: ${{inputs.sync}}
+    INPUT_SSHPRIVATEKEY: ${{inputs.sshPrivateKey}}
+    INPUT_SSHHOST: ${{inputs.sshHost}}
+    INPUT_SSHPORT: ${{inputs.sshPort}}
+    INPUT_TARGETDIR: ${{inputs.targetDir}}
 branding:
-    icon: 'package'
-    color: 'gray-dark'
+  icon: 'package'
+  color: 'gray-dark'
