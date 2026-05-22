@@ -14,6 +14,7 @@ The generated CSS can be used by the [TwigPack](https://github.com/nystudio107/c
 **Optional** The path to (temporarily) store the generated css files. Defaults to `./criticalcss/`
 
 ### `configPath`
+
 **Required** The path to the critical css config file in the project. For example: `./critical-conf.json`
 
 This file informs the action which pages to render CSS for. The structure is as follows:
@@ -30,6 +31,7 @@ This file informs the action which pages to render CSS for. The structure is as 
   }
 ]
 ```
+
 It's a good idea to try & add all top level destinations to this file.
 
 ### `sync`
@@ -45,7 +47,6 @@ The following inputs are required when `sync` is true:
 ### `sshHost`
 
 **Required** The remote host to connect to in user@host format. For example: `user@appmanschap.nl`
-
 
 ### `targetDir`
 
@@ -76,4 +77,5 @@ None for now
 ```
 
 ## Building
+
 Run `npm run build` to build the package
