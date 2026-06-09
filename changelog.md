@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.1
+
+Updates & npm audit fix
+
 ## 2.1.0
 
 Use proper versioning to prevent cache issues on runner
