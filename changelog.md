@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.2
+
+Updates & npm audit fix
+
 ## 2.1.1
 
 Updates & npm audit fix
