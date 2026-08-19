@@ -1,6 +1,6 @@
 {
   "name": "criticalcss-action",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "",
   "keywords": [],
   "license": "ISC",
@@ -19,11 +19,11 @@
     "rsyncwrapper": "^3.1.0"
   },
   "devDependencies": {
-    "oxfmt": "^0.53.0",
-    "oxlint": "^1.68.0",
-    "oxlint-tsgolint": "^0.23.0",
-    "tsdown": "^0.22.2",
-    "typescript": "^6.0.3"
+    "oxfmt": "^0.63.0",
+    "oxlint": "^1.78.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tsdown": "^0.22.14",
+    "typescript": "^7.0.2"
   },
   "pnpm": {
     "overrides": {
