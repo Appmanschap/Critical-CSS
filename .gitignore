@@ -115,3 +115,6 @@ out
 .yarn/install-state.gz
 .pnp.*
 critical-conf.json
+
+# Built inside the Docker image
+dist/

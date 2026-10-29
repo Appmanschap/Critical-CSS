@@ -1,29 +1,34 @@
 {
   "name": "criticalcss-action",
-  "version": "2.1.2",
+  "version": "3.0.0",
   "description": "",
   "keywords": [],
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "src/index.js",
+  "main": "dist/index.mjs",
   "scripts": {
-    "build": "tsdown src/index.ts --clean --minify --sourcemap --dts --format esm"
+    "build": "tsdown src/index.ts --clean --minify --sourcemap --format esm",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "lint": "oxlint",
+    "test": "vitest run",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@actions/core": "^3.0.1",
-    "@actions/github": "^9.1.1",
-    "chrome-launcher": "^1.2.1",
-    "command-exists": "^1.2.9",
-    "critical": "^8.0.0",
+    "critical": "^9.0.0",
+    "playwright": "^1.64.1",
     "rsyncwrapper": "^3.1.0"
   },
   "devDependencies": {
-    "oxfmt": "^0.63.0",
-    "oxlint": "^1.78.0",
-    "oxlint-tsgolint": "^7.0.2001",
-    "tsdown": "^0.22.14",
-    "typescript": "^7.0.2"
+    "@types/node": "^26.6.5",
+    "oxfmt": "^0.74.0",
+    "oxlint": "^1.89.0",
+    "oxlint-tsgolint": "^7.0.2004",
+    "tsdown": "^0.23.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
   },
   "pnpm": {
     "overrides": {

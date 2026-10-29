@@ -26,13 +26,25 @@ inputs:
     description: 'The ssh port in string format'
     required: false
     default: '22'
+  knownHosts:
+    description: 'known_hosts entries for the remote host; when set, the host key is verified'
+    required: false
+    default: ''
   targetDir:
-    description: 'Directory to store generated files'
-    required: true
+    description: 'Remote directory to sync the generated files to (required when sync is true)'
+    required: false
+  dimensions:
+    description: 'Comma separated viewports (WIDTHxHEIGHT) that define the fold'
+    required: false
+    default: '375x667,1440x1280'
+  concurrency:
+    description: 'Number of pages to generate at the same time'
+    required: false
+    default: '2'
 
 runs:
   using: docker
-  image: ghcr.io/appmanschap/critical-css-action:v2.1.1
+  image: ghcr.io/appmanschap/critical-css-action:v3.0.0
   env:
     INPUT_SERVERBASEURL: ${{inputs.serverBaseUrl}}
     INPUT_DESTINATIONPATH: ${{inputs.destinationPath}}
@@ -41,7 +53,10 @@ runs:
     INPUT_SSHPRIVATEKEY: ${{inputs.sshPrivateKey}}
     INPUT_SSHHOST: ${{inputs.sshHost}}
     INPUT_SSHPORT: ${{inputs.sshPort}}
+    INPUT_KNOWNHOSTS: ${{inputs.knownHosts}}
     INPUT_TARGETDIR: ${{inputs.targetDir}}
+    INPUT_DIMENSIONS: ${{inputs.dimensions}}
+    INPUT_CONCURRENCY: ${{inputs.concurrency}}
 branding:
   icon: 'package'
   color: 'gray-dark'
