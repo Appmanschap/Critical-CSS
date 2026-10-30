@@ -17,7 +17,7 @@ The action can only be exercised end-to-end inside the Docker image (needs Playw
 ## Architecture
 
 - `src/config.ts` — `getInput()` reads and validates the action inputs and throws on invalid input (`main().catch` turns that into `core.setFailed`). Exports small pure parsers (`normalizeBaseUrl`, `parsePages`, `parseDimensions`) for tests. Guards matter here: `destinationPath` is deleted every run, so it must be a workspace subdirectory, and `template` must not escape it.
-- `src/index.ts` — orchestration: empty `destinationPath`; generate each page with `critical()` (`engine: 'render'`, `dimensions`), `concurrency` at a time, collecting a `PageResult` per page instead of throwing; write the job summary; if any page failed, throw before syncing (a `--delete` sync would remove the remote CSS of failed pages); otherwise rsync once to `sshHost:targetDir`. The SSH key (and optional `known_hosts`) live in a temp dir under `RUNNER_TEMP`, removed in `finally`.
+- `src/index.ts` — orchestration: empty `destinationPath`; generate each page with `critical()` (`engine: 'render'`, `dimensions`), `concurrency` at a time, collecting a `PageResult` per page instead of throwing; write the job summary; rsync once to `sshHost:targetDir` (also when pages failed: the `--delete` sync deliberately removes their remote CSS, which no longer matches the deployed CSS); then throw if any page failed. The SSH key (and optional `known_hosts`) live in a temp dir under `RUNNER_TEMP`, removed in `finally`.
 - `src/@types/types.d.ts` — ambient (global, non-exported) types, plus typings for only the part of `critical` this action uses (it ships none).
 
 ## Build & release flow

@@ -22,8 +22,8 @@ Upgrade to Critical 9, sync once after generation, safer SSH handling and input 
 
 - The remote is synced once, after all pages are generated, with `--delete`; previously the remote CSS was
   deleted before generation, leaving the site without critical CSS during the run
-- A failing page no longer stops the other pages; the action still fails and skips the sync, so the remote CSS
-  of the failed page is kept
+- A failing page no longer stops the other pages; the other pages are still synced and the action fails
+  afterwards. The remote CSS of the failed page is deleted, as it no longer matches the deployed CSS
 - Pages are generated in parallel, see the new `concurrency` input (default `2`)
 - New `dimensions` input for the viewports (default `375x667,1440x1280`, as before)
 - New `knownHosts` input to verify the remote host key; without it a warning is logged

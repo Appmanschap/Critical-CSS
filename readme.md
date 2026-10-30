@@ -25,8 +25,9 @@ The generated files are meant for the [Vite](https://github.com/nystudio107/craf
    remote ends up with exactly the generated files. The SSH key is written to a temporary directory outside
    the workspace and removed afterwards.
 
-When a page fails, the other pages are still generated, but nothing is synced (that would delete the remote
-CSS of the failed page) and the action fails.
+When a page fails, the other pages are still generated and synced, and the action fails. The remote CSS of
+the failed page is deleted by the sync: it was generated from the previously deployed CSS, and no critical CSS
+is better than critical CSS that no longer matches.
 
 The action runs as a Docker container (`ghcr.io/appmanschap/critical-css-action`), based on Debian with
 Playwright's Chromium, rsync and an SSH client installed.

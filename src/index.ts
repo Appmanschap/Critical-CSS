@@ -137,18 +137,19 @@ const main = async () => {
   core.endGroup();
   await writeSummary(results);
 
-  const failed = results.filter((result) => result.error).map((result) => result.url);
-  if (failed.length) {
-    // Don't sync, that would delete the remote CSS of the failed pages
-    throw new Error(`Generating critical CSS failed for: ${failed.join(', ')}`);
-  }
-
+  // Also sync when pages failed: their remote CSS is deleted, as it was generated from the
+  // previously deployed CSS and no CSS is better than CSS that no longer matches
   if (input.sync) {
     core.startGroup(
       `Rsync ${input.destinationPath} -> ${input.sync.sshHost}:${input.sync.targetDir}`,
     );
     await syncToRemote(input.destinationPath, input.sync);
     core.endGroup();
+  }
+
+  const failed = results.filter((result) => result.error).map((result) => result.url);
+  if (failed.length) {
+    throw new Error(`Generating critical CSS failed for: ${failed.join(', ')}`);
   }
 };
 
