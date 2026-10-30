@@ -5,6 +5,8 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "strict": true,
+    "types": ["node"],
+    "noEmit": true,
     "esModuleInterop": true,
     "skipLibCheck": true
   },

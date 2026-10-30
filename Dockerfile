@@ -1,30 +1,29 @@
-FROM node:lts-alpine3.23
+FROM node:26-trixie-slim AS build
+WORKDIR /action
+COPY package.json package-lock.json .npmrc tsconfig.json ./
+RUN npm ci
+COPY src ./src
+RUN npm run build
+
+FROM node:26-trixie-slim
 LABEL authors="aal"
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+# Shared location for the Playwright browser, so the node user can use what root installs
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+WORKDIR /action
 
-RUN apk --no-cache add  \
-    rsync \
-    openssh-client \
-    chromium \
-    nss \
-    freetype \
-    harfbuzz \
-    ca-certificates \
-    ttf-freefont \
-    sudo
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        rsync \
+        openssh-client \
+        ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /etc/sudoers.d \
-        && echo "node ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/node \
-        && chmod 0440 /etc/sudoers.d/node
+COPY package.json package-lock.json .npmrc ./
+RUN npm ci --omit=dev \
+    && npx playwright install --with-deps --only-shell chromium \
+    && rm -rf /var/lib/apt/lists/* /root/.npm
+COPY --from=build /action/dist ./dist
 
-RUN mkdir -p /home/node/.ssh/
-COPY package.json .
-COPY dist ./dist
-COPY ssh-config /home/node/.ssh/config
-
-RUN chmod 600 /home/node/.ssh/config && chown -R node:node /home/node
-
-RUN npm i --omit=dev
 USER node
 
-ENTRYPOINT ["node", "/dist/index.mjs"]
+ENTRYPOINT ["node", "/action/dist/index.mjs"]
