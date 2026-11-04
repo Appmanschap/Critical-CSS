@@ -22,11 +22,11 @@
     "rsyncwrapper": "^3.1.0"
   },
   "devDependencies": {
-    "@types/node": "^26.6.5",
-    "oxfmt": "^0.74.0",
-    "oxlint": "^1.89.0",
+    "@types/node": "^26.6.6",
+    "oxfmt": "^0.75.0",
+    "oxlint": "^1.90.0",
     "oxlint-tsgolint": "^7.0.2004",
-    "tsdown": "^0.23.1",
+    "tsdown": "^0.23.3",
     "typescript": "^7.0.2",
     "vitest": "^5.0.5"
   },
